@@ -4,27 +4,27 @@ import string
 import secrets
 
 
+CHARACTER_TYPES = [
+    ("uppercase letters", string.ascii_uppercase),
+    ("lowercase letters", string.ascii_lowercase),
+    ("numbers", string.digits),
+    ("special characters", string.punctuation),
+]
+
+
+def ask_yes_no(prompt: str) -> bool:
+    """Return True when the user answers y or yes, in any case."""
+    return input(prompt).strip().lower().startswith("y")
+
+
 def get_character_pool() -> str:
     """Ask which character types to include and return the allowed characters."""
-    characters = ""
-
     print("\nChoose character types:")
-    print("1. Uppercase letters")
-    print("2. Lowercase letters")
-    print("3. Numbers")
-    print("4. Special characters")
 
-    if input("Include uppercase? (y/n): ").lower() == "y":
-        characters += string.ascii_uppercase
-
-    if input("Include lowercase? (y/n): ").lower() == "y":
-        characters += string.ascii_lowercase
-
-    if input("Include numbers? (y/n): ").lower() == "y":
-        characters += string.digits
-
-    if input("Include special characters? (y/n): ").lower() == "y":
-        characters += string.punctuation
+    characters = ""
+    for label, pool in CHARACTER_TYPES:
+        if ask_yes_no(f"Include {label}? (y/n): "):
+            characters += pool
 
     return characters
 
@@ -40,7 +40,11 @@ def main() -> None:
     print("       PASSWORD GENERATOR")
     print("=" * 40)
 
-    length = int(input("Enter password length: "))
+    try:
+        length = int(input("Enter password length: "))
+    except ValueError:
+        print("Error: Password length must be a whole number.")
+        return
 
     characters = get_character_pool()
 
