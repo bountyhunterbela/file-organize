@@ -1,9 +1,11 @@
+"""Generate a random password from character types the user picks."""
 
 import string
 import secrets
 
 
-def get_character_pool():
+def get_character_pool() -> str:
+    """Ask which character types to include and return the allowed characters."""
     characters = ""
 
     print("\nChoose character types:")
@@ -27,17 +29,12 @@ def get_character_pool():
     return characters
 
 
-def generate_password(length, characters):
-
-    password = ""
-
-    for i in range(length):
-        password += secrets.choice(characters)
-
-    return password
+def generate_password(length: int, characters: str) -> str:
+    """Return a password of the given length using secrets-safe randomness."""
+    return "".join(secrets.choice(characters) for _ in range(length))
 
 
-def main():
+def main() -> None:
 
     print("=" * 40)
     print("       PASSWORD GENERATOR")
@@ -60,4 +57,5 @@ def main():
     print("\nGenerated Password:", password)
 
 
-main()
+if __name__ == "__main__":
+    main()
